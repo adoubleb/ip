@@ -8,7 +8,7 @@ public class Brownie {
         System.out.println("Hello! I'm Brownie \nWhat can I do for you?");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out);
-        ArrayList<String> items = new ArrayList<>();
+        ArrayList<Task> items = new ArrayList<>();
         while (true) {
             String input = null;
             try {
@@ -29,8 +29,25 @@ public class Brownie {
                     writer.write(i + 1 + ". " + items.get(i) + "\n");
                 }
                 writer.flush();
+            } else if (input.startsWith("mark")){
+                int index = Integer.parseInt(input.split(" ")[1]) - 1;
+                if (index < 0 || index >= items.size()) {
+                    writer.println("Invalid index. Please try again.");
+                }
+                items.get(index).markAsDone();
+                writer.write("Marked " + items.get(index) + " as done.\n");
+                writer.flush();
+            } else if (input.startsWith("unmark")){
+                int index = Integer.parseInt(input.split(" ")[1]) - 1;
+                if (index < 0 || index >= items.size()) {
+                    writer.println("Invalid index. Please try again.");
+                }
+                items.get(index).markAsUndone();
+                writer.write("Noted, " + items.get(index) + " is not done.\n");
+                writer.flush();
             } else {
-                items.add(input);
+                Task toAdd = new Task(input);
+                items.add(toAdd);
                 writer.write("Added " + input + "\n");
                 writer.flush();
             }
