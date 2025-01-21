@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Brownie {
     public static void main(String[] args) {
@@ -46,7 +47,47 @@ public class Brownie {
                 writer.write("Noted, " + items.get(index) + " is not done.\n");
                 writer.flush();
             } else {
-                Task toAdd = new Task(input);
+                String inputType = input.split(" ")[0];
+                Task toAdd = null;
+                String description;
+                switch (inputType) {
+                    case "todo":
+                        description = input.substring(input.indexOf(" ") + 1);
+                        toAdd = new Todo(description);
+                        break;
+                    case "deadline":
+                        String delimiter = "by:";
+                        int index = input.indexOf(delimiter);
+                        if (index == -1) {
+                            writer.println("Invalid deadline. Please try again.");
+                            writer.flush();
+                            continue;
+                        }
+                        description = input.substring(input.indexOf(" ") + 1, index);
+                        String deadline = input.substring(index + delimiter.length());
+                        toAdd = new Deadline(description, deadline);
+                        break;
+                    case "event":
+                        String start_delimiter = "start:";
+                        String end_delimiter = "end:";
+                        int start_index = input.indexOf(start_delimiter);
+                        int end_index = input.indexOf(end_delimiter);
+                        if (start_index == -1 || end_index == -1) {
+                            writer.println("Invalid event. Please try again.");
+                            writer.flush();
+                            continue;
+                        }
+                        description = input.substring(input.indexOf(" ") + 1, start_index);
+                        String start = input.substring(start_index + start_delimiter.length(),
+                                end_index);
+                        String end = input.substring(end_index + end_delimiter.length());
+                        toAdd = new Event(description, start, end);
+                        break;
+                    default:
+                        writer.println("Invalid input. Please try again.");
+                        writer.flush();
+                }
+                if (toAdd == null) {continue;}
                 items.add(toAdd);
                 writer.write("Added " + input + "\n");
                 writer.flush();
