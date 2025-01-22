@@ -40,7 +40,9 @@ public class Brownie {
                     handleMarkCommand(writer, input, items, true);
                 } else if (input.startsWith("unmark")) {
                     handleMarkCommand(writer, input, items, false);
-                } else {
+                } else if (input.startsWith("delete")) {
+                    handleDeleteCommand(writer, input, items);
+                }else {
                     processTaskInput(writer, input, items);
                 }
             } catch (InvalidCommandException e) {
@@ -75,6 +77,17 @@ public class Brownie {
             task.markAsUndone();
             output(writer, "Noted, " + task + " is not done.");
         }
+    }
+
+    private static void handleDeleteCommand(PrintWriter writer, String input, ArrayList<Task> items) throws InvalidCommandException {
+        int index = parseIndex(input.split(" "), items.size());
+        if (index == -1) {
+            output(writer, INVALID_INDEX_MESSAGE);
+            return;
+        }
+        Task task = items.get(index);
+        items.remove(index);
+        output(writer, "Deleted " + task);
     }
 
     private static void processTaskInput(PrintWriter writer, String input, ArrayList<Task> items) throws InvalidCommandException {
