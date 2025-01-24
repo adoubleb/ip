@@ -1,0 +1,6 @@
+todo foo
+event bar
+event bar by:8pm
+event bar start:8pm end:10pm
+deadline some by:11pm
+random
