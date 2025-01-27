@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import iomanager.TasklistManager;
+
 public class Brownie {
     private static final String COMMAND_BYE = "bye";
     private static final String COMMAND_LIST = "list";
@@ -23,6 +25,9 @@ public class Brownie {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter writer = new PrintWriter(System.out);
         ArrayList<Task> items = new ArrayList<>();
+        TasklistManager tasklistManager = new TasklistManager(writer, reader);
+        tasklistManager.initializeTasklist();
+        items = tasklistManager.loadTasksFromFile();
 
         while (true) {
             try {
@@ -37,13 +42,13 @@ public class Brownie {
                 if (input.equals(COMMAND_LIST)) {
                     displayList(writer, items);
                 } else if (input.startsWith("mark")) {
-                    handleMarkCommand(writer, input, items, true);
+                    handleMarkCommand(writer, input, items, true, tasklistManager);
                 } else if (input.startsWith("unmark")) {
-                    handleMarkCommand(writer, input, items, false);
+                    handleMarkCommand(writer, input, items, false, tasklistManager);
                 } else if (input.startsWith("delete")) {
-                    handleDeleteCommand(writer, input, items);
-                }else {
-                    processTaskInput(writer, input, items);
+                    handleDeleteCommand(writer, input, items, tasklistManager);
+                } else {
+                    processTaskInput(writer, input, items, tasklistManager);
                 }
             } catch (InvalidCommandException e) {
                 output(writer, e.getMessage());
@@ -63,7 +68,8 @@ public class Brownie {
         writer.flush();
     }
 
-    private static void handleMarkCommand(PrintWriter writer, String input, ArrayList<Task> items, boolean markAsDone) throws InvalidCommandException {
+    private static void handleMarkCommand(PrintWriter writer, String input, ArrayList<Task> items,
+            boolean markAsDone, TasklistManager tasklistManager)  throws InvalidCommandException {
         int index = parseIndex(input.split(" "), items.size());
         if (index == -1) {
             output(writer, INVALID_INDEX_MESSAGE);
@@ -77,9 +83,11 @@ public class Brownie {
             task.markAsUndone();
             output(writer, "Noted, " + task + " is not done.");
         }
+        tasklistManager.saveTasksToFile(items);
     }
 
-    private static void handleDeleteCommand(PrintWriter writer, String input, ArrayList<Task> items) throws InvalidCommandException {
+    private static void handleDeleteCommand(PrintWriter writer, String input, ArrayList<Task> items,
+            TasklistManager tasklistManager) throws InvalidCommandException {
         int index = parseIndex(input.split(" "), items.size());
         if (index == -1) {
             output(writer, INVALID_INDEX_MESSAGE);
@@ -88,47 +96,50 @@ public class Brownie {
         Task task = items.get(index);
         items.remove(index);
         output(writer, "Deleted " + task);
+        tasklistManager.saveTasksToFile(items);
     }
 
-    private static void processTaskInput(PrintWriter writer, String input, ArrayList<Task> items) throws InvalidCommandException {
+    private static void processTaskInput(PrintWriter writer, String input, ArrayList<Task> items,
+            TasklistManager tasklistManager) throws InvalidCommandException {
         String command = input.split(" ")[0];
         String description;
         Task taskToAdd;
 
         switch (command) {
-            case "todo":
-                description = input.substring(input.indexOf(" ") + 1);
-                taskToAdd = new Todo(description);
-                break;
-            case "deadline":
-                final String BY_DELIMITER = "by:";
-                int byIndex = input.indexOf(BY_DELIMITER);
-                if (byIndex == -1) {
-                    throw new InvalidCommandException("Invalid deadline. Please try again.");
-                }
-                description = input.substring(input.indexOf(" ") + 1, byIndex).trim();
-                String deadline = input.substring(byIndex + BY_DELIMITER.length()).trim();
-                taskToAdd = new Deadline(description, deadline);
-                break;
-            case "event":
-                final String START_DELIMITER = "start:";
-                final String END_DELIMITER = "end:";
-                int startIndex = input.indexOf(START_DELIMITER);
-                int endIndex = input.indexOf(END_DELIMITER);
-                if (startIndex == -1 || endIndex == -1) {
-                    throw new InvalidCommandException("Invalid event. Please try again.");
-                }
-                description = input.substring(input.indexOf(" ") + 1, startIndex).trim();
-                String start = input.substring(startIndex + START_DELIMITER.length(), endIndex).trim();
-                String end = input.substring(endIndex + END_DELIMITER.length()).trim();
-                taskToAdd = new Event(description, start, end);
-                break;
-            default:
-                throw new InvalidCommandException("Invalid command: " + command);
+        case "todo":
+            description = input.substring(input.indexOf(" ") + 1);
+            taskToAdd = new Todo(description);
+            break;
+        case "deadline":
+            final String BY_DELIMITER = "by:";
+            int byIndex = input.indexOf(BY_DELIMITER);
+            if (byIndex == -1) {
+                throw new InvalidCommandException("Invalid deadline. Please try again.");
+            }
+            description = input.substring(input.indexOf(" ") + 1, byIndex).trim();
+            String deadline = input.substring(byIndex + BY_DELIMITER.length()).trim();
+            taskToAdd = new Deadline(description, deadline);
+            break;
+        case "event":
+            final String START_DELIMITER = "start:";
+            final String END_DELIMITER = "end:";
+            int startIndex = input.indexOf(START_DELIMITER);
+            int endIndex = input.indexOf(END_DELIMITER);
+            if (startIndex == -1 || endIndex == -1) {
+                throw new InvalidCommandException("Invalid event. Please try again.");
+            }
+            description = input.substring(input.indexOf(" ") + 1, startIndex).trim();
+            String start = input.substring(startIndex + START_DELIMITER.length(), endIndex).trim();
+            String end = input.substring(endIndex + END_DELIMITER.length()).trim();
+            taskToAdd = new Event(description, start, end);
+            break;
+        default:
+            throw new InvalidCommandException("Invalid command: " + command);
         }
 
         items.add(taskToAdd);
         output(writer, ITEM_ADDED_MESSAGE + input);
+        tasklistManager.saveTasksToFile(items);
 
     }
 

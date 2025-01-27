@@ -16,4 +16,9 @@ public class Event extends Task {
     public String toString() {
         return super.toString() + " (start: " + this.start + ")" + " (end: " + this.end + ")";
     }
+
+    public String serialize() {
+        return mySymbol() + " | " + (this.isDone ? "1" : "0") + " | " + this.description + " | " +
+                this.start + " | " + this.end;
+    }
 }
