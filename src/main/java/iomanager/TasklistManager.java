@@ -12,9 +12,9 @@ public class TasklistManager {
     private final PrintWriter writer;
     private final BufferedReader reader;
 
-    public TasklistManager(PrintWriter writer, BufferedReader reader) {
-        this.writer = writer;
-        this.reader = reader;
+    public TasklistManager() {
+        this.writer = new PrintWriter(System.out);;
+        this.reader = new BufferedReader(new InputStreamReader(System.in));;
     }
 
     /**
