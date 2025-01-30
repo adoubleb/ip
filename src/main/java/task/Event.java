@@ -16,11 +16,15 @@ public class Event extends Task {
     }
 
     public String getStart() {
-        return start.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // -> Oct 15 2019
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+        String formattedDateTime = start.format(formatter);
+        return formattedDateTime; // -> Oct 15 2019
     }
 
     public String getEnd() {
-        return end.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
+        String formattedDateTime = end.format(formatter);
+        return formattedDateTime;
     }
 
     @Override
