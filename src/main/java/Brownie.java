@@ -1,3 +1,4 @@
+import parser.ExtractDateTime;
 import task.Deadline;
 import task.Event;
 import task.Task;
@@ -8,9 +9,10 @@ import exceptions.InvalidCommandException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import iomanager.TasklistManager;
+;import iomanager.TasklistManager;
 
 public class Brownie {
     private static final String COMMAND_BYE = "bye";
@@ -104,6 +106,7 @@ public class Brownie {
         String command = input.split(" ")[0];
         String description;
         Task taskToAdd;
+        ExtractDateTime extractDateTime = new ExtractDateTime(input);
 
         switch (command) {
         case "todo":
@@ -118,7 +121,8 @@ public class Brownie {
             }
             description = input.substring(input.indexOf(" ") + 1, byIndex).trim();
             String deadline = input.substring(byIndex + BY_DELIMITER.length()).trim();
-            taskToAdd = new Deadline(description, deadline);
+            ArrayList<LocalDateTime> datetimesDeadline = extractDateTime.deadlineDateTime();
+            taskToAdd = new Deadline(description, datetimesDeadline.get(0));
             break;
         case "event":
             final String START_DELIMITER = "start:";
@@ -129,9 +133,8 @@ public class Brownie {
                 throw new InvalidCommandException("Invalid event. Please try again.");
             }
             description = input.substring(input.indexOf(" ") + 1, startIndex).trim();
-            String start = input.substring(startIndex + START_DELIMITER.length(), endIndex).trim();
-            String end = input.substring(endIndex + END_DELIMITER.length()).trim();
-            taskToAdd = new Event(description, start, end);
+            ArrayList<LocalDateTime> datetimesEvent = extractDateTime.eventDateTime();
+            taskToAdd = new Event(description, datetimesEvent.get(0), datetimesEvent.get(1));
             break;
         default:
             throw new InvalidCommandException("Invalid command: " + command);

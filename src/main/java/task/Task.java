@@ -1,5 +1,7 @@
 package task;
 
+import java.time.LocalDateTime;
+
 public abstract class Task {
     protected String description;
     protected boolean isDone;
@@ -54,10 +56,10 @@ public abstract class Task {
             toReturn = new Todo(description);
             break;
         case "D":
-            toReturn = new Deadline(description, parts[3]);
+            toReturn = new Deadline(description, LocalDateTime.parse(parts[3]));
             break;
         case "E":
-            toReturn = new Event(description, parts[3], parts[4]);
+            toReturn = new Event(description, LocalDateTime.parse(parts[3]), LocalDateTime.parse(parts[4]));
             break;
         default:
             return null;
