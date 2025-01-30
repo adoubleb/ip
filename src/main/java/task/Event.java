@@ -1,20 +1,31 @@
 package task;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    String start;
-    String end;
-    public Event(String description, String start, String end) {
+    LocalDateTime start;
+    LocalDateTime end;
+    public Event(String description, LocalDateTime start, LocalDateTime end) {
         super(description);
-        this.start = start.trim();
-        this.end = end.trim();
+        this.start = start;
+        this.end = end;
     }
     public String mySymbol() {
         return "E";
     }
 
+    public String getStart() {
+        return start.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // -> Oct 15 2019
+    }
+
+    public String getEnd() {
+        return end.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+    }
+
     @Override
     public String toString() {
-        return super.toString() + " (start: " + this.start + ")" + " (end: " + this.end + ")";
+        return super.toString() + " (start: " + this.getStart() + ")" + " (end: " + this.getEnd() + ")";
     }
 
     public String serialize() {
