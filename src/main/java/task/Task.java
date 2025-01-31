@@ -70,6 +70,9 @@ public abstract class Task {
         return toReturn;
     }
 
+    public String getDescription() {
+        return this.description;
+    } ;
 
     abstract public String mySymbol();
 

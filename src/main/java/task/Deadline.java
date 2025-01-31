@@ -26,4 +26,5 @@ public class Deadline extends Task {
         return mySymbol() + " | " + (this.isDone ? "1" : "0") + " | " + this.description +
                 " | " + deadline;
     }
+
 }
