@@ -72,6 +72,10 @@ public abstract class Task {
 
 
     abstract public String mySymbol();
+
+    public boolean isDone() {
+        return isDone;
+    }
 }
 
 
