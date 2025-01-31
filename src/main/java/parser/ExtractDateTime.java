@@ -7,14 +7,49 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.regex.*;
 
-
+/**
+ * Provides functionality to extract DateTime values representing events or deadlines from an input string.
+ * The class is designed to parse specific patterns for start and end times for events, as well as
+ * a deadline DateTime for tasks. It uses predefined patterns to identify and return these DateTime values
+ * in a structured manner.
+ *
+ * The class expects input strings to conform to a specific format:
+ * 1. For events: "start: dd-MM-yyyy HH:mm end: dd-MM-yyyy HH:mm".
+ * 2. For deadlines: "by: dd-MM-yyyy HH:mm".
+ *
+ * Features include:
+ * - Parsing event strings with start and end DateTime values.
+ * - Parsing deadline strings and extracting the corresponding DateTime.
+ */
 public class ExtractDateTime {
     private String input;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm");
 
+    /**
+     * Constructs a new ExtractDateTime instance and initializes it with the given input string.
+     * This input string is expected to contain date and time information in specific formats
+     * to be parsed later for events or deadlines.
+     *
+     * @param input the input string containing date and time details to be processed,
+     *              adhering to the expected patterns for events or deadlines.
+     */
     public ExtractDateTime(String input) {
         this.input = input;
     }
+
+    /**
+     * Parses the input string provided to the instance of the class and extracts start and end
+     * date-time values in the format "dd-MM-yyyy HH:mm". The input string should conform to the
+     * pattern: "start: dd-MM-yyyy HH:mm end: dd-MM-yyyy HH:mm".
+     *
+     * If the input string matches the expected pattern, the extracted date-time values are
+     * returned as a list of `LocalDateTime` objects. The first element in the list corresponds
+     * to the start date-time, and the second element corresponds to the end date-time. If the
+     * input string does not match the expected pattern, an empty list is returned.
+     *
+     * @return a list containing two `LocalDateTime` objects (start and end date-time) if the input
+     *         matches the expected pattern; otherwise, an empty list.
+     */
     public ArrayList<LocalDateTime> eventDateTime()  {
         String pattern = "start:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})\\s+end:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})";
 
@@ -35,6 +70,18 @@ public class ExtractDateTime {
         return toReturn;
     }
 
+    /**
+     * Extracts and parses the deadline date and time from the input string.
+     * The input string must match a specific pattern, where the date is in the format "dd-MM-yyyy"
+     * and the time is in the format "HH:mm", prefixed by "by:". This method compiles and applies the regex
+     * pattern to extract the date and time information and converts it into a list of `LocalDateTime` objects.
+     *
+     * If the input string does not conform to the required format, this method will throw an
+     * {@code InvalidCommandException}.
+     *
+     * @return a list containing one `LocalDateTime` object representing the deadline date and time.
+     * @throws InvalidCommandException if the input string does not match the expected date/time format.
+     */
     public ArrayList<LocalDateTime> deadlineDateTime() throws InvalidCommandException {
         String pattern = "by:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})";
 
