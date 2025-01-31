@@ -87,6 +87,11 @@ public class UserInput {
                 throw new InvalidCommandException("Invalid Delete Command");
             }
             return new DeleteCommand(Integer.parseInt(tokens[1]) - 1);
+        case "find":
+            if (tokens.length != 2) {
+                throw new InvalidCommandException("Invalid Find Command");
+            }
+            return new FindCommand(tokens[1]);
         case "todo":
             String todoDescription = input.substring(input.indexOf(" ") + 1);
             return new AddCommand(TaskType.TODO, todoDescription);
