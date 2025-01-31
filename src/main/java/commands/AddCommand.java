@@ -15,6 +15,8 @@ import java.util.ArrayList;
  * type TODO, EVENT, or DEADLINE.
  */
 public class AddCommand extends Command {
+    private static final String START_DELIMITER = "start:";
+    private static final String BY_DELIMITER = "by:";
     private final TaskType taskType;
     private final String content;
 
@@ -55,14 +57,12 @@ public class AddCommand extends Command {
             taskToAdd = new Todo(content);
             break;
         case EVENT:
-            final String START_DELIMITER = "start:";
             int startIndex = content.indexOf(START_DELIMITER);
             description = content.substring(content.indexOf(" ") + 1, startIndex).trim();
             ArrayList<LocalDateTime> datetimesEvent = extractDateTime.eventDateTime();
             taskToAdd = new Event(description, datetimesEvent.get(0), datetimesEvent.get(1));
             break;
         case DEADLINE:
-            final String BY_DELIMITER = "by:";
             int byIndex = content.indexOf(BY_DELIMITER);
             description = content.substring(content.indexOf(" ") + 1, byIndex).trim();
             ArrayList<LocalDateTime> datetimesDeadline = extractDateTime.deadlineDateTime();
