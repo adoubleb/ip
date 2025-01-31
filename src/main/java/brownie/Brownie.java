@@ -17,7 +17,7 @@ import ui.Ui;
  * task list, and file storage. It serves as the entry point of the application.
  */
 public class Brownie {
-    private TasklistManager tasklistManager;
+    private final TasklistManager tasklistManager;
     private ArrayList<Task> items;
     private Ui ui;
 
