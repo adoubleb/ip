@@ -7,6 +7,16 @@ import ui.Ui;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a command that deletes a specific task from the task list.
+ * The task to be deleted is specified via its index in the task list.
+ * This index is 0-based.
+ *
+ * When executed, the command removes the task from the list, saves the updated list
+ * using the TasklistManager, and notifies the user through the UI. If the provided
+ * index is invalid (negative or greater than the largest index in the task list),
+ * an InvalidCommandException is thrown.
+ */
 public class DeleteCommand extends Command{
     int index;
     public DeleteCommand(int index) { //attention! index here is 0-indexed
@@ -14,6 +24,18 @@ public class DeleteCommand extends Command{
         this.index = index;
     }
 
+    /**
+     * Executes the delete command by removing a task from the provided task list,
+     * saving the updated list to the file using TasklistManager, and displaying a
+     * confirmation message to the user using the UI.
+     * If the provided task index is invalid (negative or out of bounds),
+     * an InvalidCommandException is thrown.
+     *
+     * @param tasks The current list of tasks from which the task will be deleted.
+     * @param ui The UI instance used to display messages to the user.
+     * @param tasklistManager The TasklistManager instance used to save the updated list.
+     * @throws InvalidCommandException If the specified task index is negative or exceeds the task list size.
+     */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws InvalidCommandException{
         if (this.index < 0) {

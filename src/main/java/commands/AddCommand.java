@@ -9,16 +9,42 @@ import ui.Ui;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Represents a command to add a task to the task list. This class extends the
+ * abstract Command class and provides the implementation for adding tasks of
+ * type TODO, EVENT, or DEADLINE.
+ */
 public class AddCommand extends Command {
     private final TaskType taskType;
     private final String content;
 
+    /**
+     * Constructs an AddCommand with the specified task type and content.
+     * This command is used to add a task of the given type (TODO, EVENT, DEADLINE)
+     * with the provided content.
+     *
+     * @param taskType the type of task to be added (TODO, EVENT, or DEADLINE)
+     * @param content  the details or description of the task, including any
+     *                 additional information such as dates or times for EVENTS
+     *                 and DEADLINES
+     */
     public AddCommand(TaskType taskType, String content) {
         super();
         this.taskType = taskType;
         this.content = content.trim();
     }
 
+    /**
+     * Executes the AddCommand. Depending on the task type (TODO, EVENT, or DEADLINE),
+     * this method parses the content, creates the appropriate Task object, adds it
+     * to the tasks list, saves the updated list to the file via TasklistManager, and
+     * displays a success message using the Ui.
+     *
+     * @param tasks The list of tasks to which the new task will be added.
+     * @param ui The user interface instance for displaying messages and feedback.
+     * @param tasklistManager The manager responsible for saving and managing the task list.
+     * @throws InvalidCommandException If the task type is invalid or the content cannot be parsed.
+     */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws InvalidCommandException {
         Task taskToAdd;

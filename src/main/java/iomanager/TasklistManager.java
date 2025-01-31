@@ -5,6 +5,9 @@ import task.Task;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Manages the tasklist operations such as initialization, saving tasks, and loading tasks.
+ */
 public class TasklistManager {
     private static final String DATA_FOLDER_PATH = "./data/brownie";
     private static final String TASKLIST_FILE_PATH = DATA_FOLDER_PATH + "/tasklist.txt";
@@ -12,6 +15,18 @@ public class TasklistManager {
     private final PrintWriter writer;
     private final BufferedReader reader;
 
+    /**
+     * Constructs a new instance of the TasklistManager.
+     *
+     * This constructor initializes the input and output streams used by the manager
+     * to interact with the system. Specifically:
+     * - A PrintWriter is initialized to allow writing output messages to the system's
+     *   standard output stream.
+     * - A BufferedReader is initialized to read input from the system's standard input stream.
+     *
+     * These streams are utilized by various methods in the TasklistManager to handle
+     * user interaction and file management tasks.
+     */
     public TasklistManager() {
         this.writer = new PrintWriter(System.out);;
         this.reader = new BufferedReader(new InputStreamReader(System.in));;
