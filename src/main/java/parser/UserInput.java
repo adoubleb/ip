@@ -63,6 +63,7 @@ public class UserInput {
      */
     public Command parse() throws InvalidCommandException {
         if (input == null || input.trim().isEmpty()) {
+
             throw new InvalidCommandException("Input Cannot Be Empty");
         }
         String[] tokens = input.split("\\s+");
