@@ -84,4 +84,8 @@ public class Brownie {
         Brownie brownie = new Brownie();
         brownie.run();
     }
+
+    public String getResponse(String input) {
+        return "brownie.Brownie heard: " + input;
+    }
 }
