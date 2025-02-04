@@ -2,6 +2,7 @@ package windows;
 
 import boxes.DialogBox;
 import brownie.Brownie;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+
 /**
  * Controller for the main GUI.
  */
@@ -33,23 +36,40 @@ public class MainWindow extends AnchorPane {
     }
 
     /** Injects the Duke instance */
-    public void setBrownie(Brownie d) {
-        brownie = d;
+    public void setBrownie(Brownie b) {
+        this.brownie = b;
+
+        // Define a callback that updates the dialog container in the GUI
+        this.brownie.setDialogUpdater((text, image) -> {
+            // Update the UI with Brownie's response (on the JavaFX Application Thread)
+            dialogContainer.getChildren().add(DialogBox.getBrownieDialog(text, image));
+        });
+
+        dialogContainer.getChildren().add(DialogBox.getBrownieDialog("Hello, my name is Brownie.", brownieImage));
     }
 
-    /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
-     */
+
+
     @FXML
-    private void handleUserInput() {
+    private void handleUserInput() throws InterruptedException {
         String input = userInput.getText();
-        String response = brownie.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getBrownieDialog(response, brownieImage)
+        dialogContainer.getChildren().add(
+                DialogBox.getUserDialog(input, userImage)
         );
         userInput.clear();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(2)); //
+
+        brownie.respondToUser(input);
+        if (input.equals("bye")) {
+            pause.setOnFinished(event -> {
+                // Display Brownie's response after the delay
+                System.exit(0);
+            });
+            // Start the pause
+            pause.play();
+        }
     }
+
 }
 

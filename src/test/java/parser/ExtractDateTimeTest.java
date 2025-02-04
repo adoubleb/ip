@@ -13,7 +13,7 @@ public class ExtractDateTimeTest {
     @Test
     void testEventDateTimeWithValidInput() {
         String validInput = "start: 12-10-2023 14:30 end: 13-10-2023 16:30";
-        ExtractDateTime extractDateTime = new ExtractDateTime(validInput);
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(validInput);
 
         ArrayList<LocalDateTime> result = extractDateTime.eventDateTime();
 
@@ -25,7 +25,7 @@ public class ExtractDateTimeTest {
     @Test
     void testEventDateTimeWithInvalidInput() {
         String invalidInput = "invalid date string";
-        ExtractDateTime extractDateTime = new ExtractDateTime(invalidInput);
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(invalidInput);
 
         ArrayList<LocalDateTime> result = extractDateTime.eventDateTime();
 
@@ -35,7 +35,7 @@ public class ExtractDateTimeTest {
     @Test
     void testDeadlineDateTimeWithValidInput() throws InvalidCommandException {
         String validInput = "by: 15-10-2023 09:00";
-        ExtractDateTime extractDateTime = new ExtractDateTime(validInput);
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(validInput);
 
         ArrayList<LocalDateTime> result = extractDateTime.deadlineDateTime();
 
@@ -46,7 +46,7 @@ public class ExtractDateTimeTest {
     @Test
     void testDeadlineDateTimeWithInvalidInput() {
         String invalidInput = "invalid deadline string";
-        ExtractDateTime extractDateTime = new ExtractDateTime(invalidInput);
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(invalidInput);
 
         InvalidCommandException exception = assertThrows(InvalidCommandException.class, extractDateTime::deadlineDateTime);
 

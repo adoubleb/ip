@@ -1,10 +1,10 @@
 package commands;
 
+import java.util.ArrayList;
+
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
-
-import java.util.ArrayList;
 
 /**
  * Represents the ListCommand that lists all tasks currently stored in the application's task list.
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * This class extends the abstract Command class and implements the execute method to perform its
  * specific functionality.
  */
-public class ListCommand extends Command{
+public class ListCommand extends Command {
 
     /**
      * Executes the ListCommand, which displays all tasks currently stored
@@ -29,7 +29,7 @@ public class ListCommand extends Command{
      * @throws Exception If any unexpected errors occur during the execution of the command.
      */
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
-        ui.showTasklist(tasks);
+    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
+        return ui.showTasklist(tasks);
     }
 }

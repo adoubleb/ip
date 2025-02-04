@@ -1,12 +1,14 @@
 package brownie;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 import commands.Command;
 import iomanager.TasklistManager;
 import parser.UserInput;
 import task.Task;
 import ui.Ui;
+import javafx.scene.image.Image;
 
 /**
  * Represents the main Brownie application that manages tasks.
@@ -20,6 +22,7 @@ public class Brownie {
     private final TasklistManager tasklistManager;
     private ArrayList<Task> items;
     private Ui ui;
+    private BiConsumer<String, Image> dialogUpdater;
 
     /**
      * Constructs a new instance of the Brownie application.
@@ -65,27 +68,54 @@ public class Brownie {
      * This method runs indefinitely until termination is explicitly handled
      * through a command such as 'bye'.
      */
-    public void run() {
-        ui.showWelcome();
-        while (true) {
-            try {
-                String userInput = ui.readCommand();
-                ui.showLine();
-                UserInput input = new UserInput(userInput);
-                Command command = input.parse();
-                command.execute(items, ui, tasklistManager);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//    public void run() {
+//        ui.showWelcome();
+//        while (true) {
+//            try {
+//                String userInput = ui.readCommand();
+//                ui.showLine();
+//                UserInput input = new UserInput(userInput);
+//                Command command = input.parse();
+//                command.execute(items, ui, tasklistManager);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+//    public static void main(String[] args) {
+//        Brownie brownie = new Brownie();
+//        brownie.run();
+//    }
+
+    public void setDialogUpdater(BiConsumer<String, Image> dialogUpdater) {
+        this.dialogUpdater = dialogUpdater;
+    }
+
+    /**
+     * Processes the user input and generates an appropriate response by parsing and executing the input command.
+     * Delegates command parsing to the {@code UserInput} and execution to the corresponding {@code Command}.
+     * Handles any exceptions during the process, ensuring errors are captured and a response is generated.
+     * Optionally updates the dialog UI using the configured callback method.
+     *
+     * @param input The raw input string provided by the user. This is expected to contain a command and optional arguments.
+     */
+    public void respondToUser(String input) {
+        String response = "";
+        try {
+            UserInput userInput = new UserInput(input);
+            Command command = userInput.parse();
+            response = command.execute(items, ui, tasklistManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Error: " + e.getMessage();
+        }
+
+        // Call the callback (only if it's defined) to update the GUI
+        if (dialogUpdater != null) {
+            dialogUpdater.accept(response, new Image("/images/Brownie.jpg"));
         }
     }
 
-    public static void main(String[] args) {
-        Brownie brownie = new Brownie();
-        brownie.run();
-    }
 
-    public String getResponse(String input) {
-        return "brownie.Brownie heard: " + input;
-    }
 }
