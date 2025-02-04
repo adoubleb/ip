@@ -1,11 +1,12 @@
 package commands;
 
+import java.util.ArrayList;
+
 import exceptions.InvalidCommandException;
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
 
-import java.util.ArrayList;
 
 /**
  * Represents a command that deletes a specific task from the task list.
@@ -17,8 +18,18 @@ import java.util.ArrayList;
  * index is invalid (negative or greater than the largest index in the task list),
  * an InvalidCommandException is thrown.
  */
-public class DeleteCommand extends Command{
-    int index;
+public class DeleteCommand extends Command {
+    private int index;
+
+    /**
+     * Constructs a DeleteCommand to delete a task at the specified index in the task list.
+     * The index provided is 0-indexed, meaning the first element in the list has index 0.
+     * If executed, this command will remove the task from the list, save the updated
+     * task list, and provide feedback to the user. An exception will be thrown if
+     * the index is negative or out of bounds.
+     *
+     * @param index The 0-based index of the task to be deleted from the task list.
+     */
     public DeleteCommand(int index) { //attention! index here is 0-indexed
         super();
         this.index = index;
@@ -37,16 +48,16 @@ public class DeleteCommand extends Command{
      * @throws InvalidCommandException If the specified task index is negative or exceeds the task list size.
      */
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws InvalidCommandException{
+    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws
+            InvalidCommandException {
         if (this.index < 0) {
             throw new InvalidCommandException("Can't delete negative index");
         } else if (index >= tasks.size()) {
-            throw new InvalidCommandException("Can't delete index: " + this.index + ". Biggest index is " + tasks.size());
+            throw new InvalidCommandException("Can't delete index: " + (this.index + 1) + ". Biggest index is " + tasks.size());
         }
         Task task = tasks.get(index);
         tasks.remove(index);
         tasklistManager.saveTasksToFile(tasks);
-        ui.deleteSuccessMessage(index, task.toString());
-        ui.showLine();
+        return ui.deleteSuccessMessage(index, task.toString());
     }
 }

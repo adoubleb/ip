@@ -21,7 +21,7 @@ import java.util.regex.*;
  * - Parsing event strings with start and end DateTime values.
  * - Parsing deadline strings and extracting the corresponding DateTime.
  */
-public class ExtractDateTime {
+public class DateTimeExtractor {
     private String input;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm");
 
@@ -33,7 +33,7 @@ public class ExtractDateTime {
      * @param input the input string containing date and time details to be processed,
      *              adhering to the expected patterns for events or deadlines.
      */
-    public ExtractDateTime(String input) {
+    public DateTimeExtractor(String input) {
         this.input = input;
     }
 
@@ -50,9 +50,8 @@ public class ExtractDateTime {
      * @return a list containing two `LocalDateTime` objects (start and end date-time) if the input
      *         matches the expected pattern; otherwise, an empty list.
      */
-    public ArrayList<LocalDateTime> eventDateTime()  {
-        String pattern = "start:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})\\s+end:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})";
-
+    public ArrayList<LocalDateTime> eventDateTime() {
+        String pattern = "start:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})\\s*end:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})";
         // Compile the pattern
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(input);
@@ -65,6 +64,8 @@ public class ExtractDateTime {
             toReturn.add(start);
             toReturn.add(end);
         } else {
+            System.out.println("here");
+            System.out.println(this.input);
             System.out.println("invalid input");
         }
         return toReturn;

@@ -1,10 +1,10 @@
 package commands;
 
+import java.util.ArrayList;
+
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
-
-import java.util.ArrayList;
 
 /**
  * Represents a command to mark a task in the task list as done or undone.
@@ -14,8 +14,7 @@ import java.util.ArrayList;
  * The command requires the index of the task in the task list and a boolean
  * value indicating whether the task should be marked as done or undone.
  */
-public class MarkCommand extends Command{
-    //expects format mark int
+public class MarkCommand extends Command {
     private final int index;
     private final boolean markAsDone;
 
@@ -41,17 +40,19 @@ public class MarkCommand extends Command{
      * @param tasklistManager The manager responsible for saving changes to the task list.
      * @throws Exception If the operation fails, typically due to invalid input or saving errors.
      */
-    public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
+    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
         Task task = tasks.get(index);
+        String res = "";
         if (markAsDone) {
             task.markAsDone();
-            ui.markSuccessMessage(index, task.toString(), true);
+            res += ui.markSuccessMessage(index, task.toString(), true);
         } else {
             task.markAsUndone();
-            ui.markSuccessMessage(index, task.toString(), false);
+            res += ui.markSuccessMessage(index, task.toString(), false);
         }
         tasklistManager.saveTasksToFile(tasks);
-        ui.showTasklist(tasks);
-        ui.showLine();
+        res += "\n";
+        res += ui.showTasklist(tasks);
+        return res;
     }
 }

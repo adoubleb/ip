@@ -1,13 +1,17 @@
 package commands;
 
-import exceptions.InvalidCommandException;
-import iomanager.TasklistManager;
-import parser.ExtractDateTime;
-import task.*;
-import ui.Ui;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import exceptions.InvalidCommandException;
+import iomanager.TasklistManager;
+import parser.DateTimeExtractor;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.TaskType;
+import task.Todo;
+import ui.Ui;
 
 /**
  * Represents a command to add a task to the task list. This class extends the
@@ -48,9 +52,11 @@ public class AddCommand extends Command {
      * @throws InvalidCommandException If the task type is invalid or the content cannot be parsed.
      */
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws InvalidCommandException {
+    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws
+            InvalidCommandException {
+        String result = "";
         Task taskToAdd;
-        ExtractDateTime extractDateTime = new ExtractDateTime(this.content);
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);
         String description;
         switch (taskType) {
         case TODO:
@@ -73,7 +79,7 @@ public class AddCommand extends Command {
         }
         tasks.add(taskToAdd);
         tasklistManager.saveTasksToFile(tasks);
-        ui.addSuccessMessage(tasks.size() - 1, taskToAdd.toString());
-        ui.showLine();
+        result = ui.addSuccessMessage(tasks.size() - 1, taskToAdd.toString());
+        return result;
     }
 }

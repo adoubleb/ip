@@ -18,5 +18,5 @@ import java.util.ArrayList;
  * interact with the user interface, and utilize the task list manager for file persistence.
  */
 public abstract class Command {
-    public abstract void execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception;
+    public abstract String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception;
 }
