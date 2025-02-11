@@ -2,6 +2,7 @@ package task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * The Event class represents a task that occurs within a specific time*/
@@ -53,5 +54,20 @@ public class Event extends Task {
     public String serialize() {
         return mySymbol() + " | " + (this.isDone ? "1" : "0") + " | " + this.description + " | "
             + this.start + " | " + this.end;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Event) {
+            Event other = (Event) obj;
+            boolean hasSameDescription = Objects.equals(this.description, other.description);
+            boolean hasSameStart = Objects.equals(this.start, other.start);
+            boolean hasSameEnd = Objects.equals(this.end, other.end);
+            return hasSameDescription && hasSameStart && hasSameEnd;
+        }
+        return false;
     }
 }
