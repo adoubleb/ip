@@ -54,7 +54,7 @@ public class AddCommand extends Command {
     @Override
     public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws
             InvalidCommandException {
-        String result = "";
+        String result;
         Task taskToAdd;
         DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);
         String description;
@@ -79,7 +79,8 @@ public class AddCommand extends Command {
         }
         tasks.add(taskToAdd);
         tasklistManager.saveTasksToFile(tasks);
-        result = ui.addSuccessMessage(tasks.size() - 1, taskToAdd.toString());
+        int userFriendlyIndex = tasks.size() - 1;
+        result = ui.addSuccessMessage(userFriendlyIndex, taskToAdd.toString());
         return result;
     }
 }
