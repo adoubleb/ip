@@ -77,6 +77,7 @@ public class AddCommand extends Command {
         default:
             throw new InvalidCommandException("Invalid task type");
         }
+        assert taskToAdd != null;
         tasks.add(taskToAdd);
         tasklistManager.saveTasksToFile(tasks);
         result = ui.addSuccessMessage(tasks.size() - 1, taskToAdd.toString());

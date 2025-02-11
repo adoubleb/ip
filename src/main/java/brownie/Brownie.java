@@ -85,6 +85,7 @@ public class Brownie {
      */
     public void respondToUser(String input) {
         String response = "";
+        assert dialogUpdater != null;
         try {
             UserInput userInput = new UserInput(input);
             Command command = userInput.parse();
@@ -94,10 +95,7 @@ public class Brownie {
             response = "Error: " + e.getMessage();
         }
 
-        // Call the callback (only if it's defined) to update the GUI
-        if (dialogUpdater != null) {
-            dialogUpdater.accept(response, new Image("/images/Brownie.jpg"));
-        }
+        dialogUpdater.accept(response, new Image("/images/Brownie.jpg"));
     }
 
 
