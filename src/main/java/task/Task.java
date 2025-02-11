@@ -2,10 +2,15 @@ package task;
 
 import java.time.LocalDateTime;
 
+/**
+ * The Task class is an abstract representation of a*/
 public abstract class Task {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * @param description
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
@@ -72,9 +77,9 @@ public abstract class Task {
 
     public String getDescription() {
         return this.description;
-    } ;
+    };
 
-    abstract public String mySymbol();
+    public abstract String mySymbol();
 
     public boolean isDone() {
         return isDone;

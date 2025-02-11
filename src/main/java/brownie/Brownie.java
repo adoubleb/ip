@@ -5,10 +5,11 @@ import java.util.function.BiConsumer;
 
 import commands.Command;
 import iomanager.TasklistManager;
+import javafx.scene.image.Image;
 import parser.UserInput;
 import task.Task;
 import ui.Ui;
-import javafx.scene.image.Image;
+
 
 /**
  * Represents the main Brownie application that manages tasks.
@@ -68,25 +69,6 @@ public class Brownie {
      * This method runs indefinitely until termination is explicitly handled
      * through a command such as 'bye'.
      */
-//    public void run() {
-//        ui.showWelcome();
-//        while (true) {
-//            try {
-//                String userInput = ui.readCommand();
-//                ui.showLine();
-//                UserInput input = new UserInput(userInput);
-//                Command command = input.parse();
-//                command.execute(items, ui, tasklistManager);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    public static void main(String[] args) {
-//        Brownie brownie = new Brownie();
-//        brownie.run();
-//    }
 
     public void setDialogUpdater(BiConsumer<String, Image> dialogUpdater) {
         this.dialogUpdater = dialogUpdater;
@@ -98,7 +80,8 @@ public class Brownie {
      * Handles any exceptions during the process, ensuring errors are captured and a response is generated.
      * Optionally updates the dialog UI using the configured callback method.
      *
-     * @param input The raw input string provided by the user. This is expected to contain a command and optional arguments.
+     * @param input The raw input string provided by the user. This is expected to contain a command and optional
+     *              arguments.
      */
     public void respondToUser(String input) {
         String response = "";

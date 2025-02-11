@@ -1,11 +1,12 @@
 package parser;
 
-import exceptions.InvalidCommandException;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import exceptions.InvalidCommandException;
 
 /**
  * Provides functionality to extract DateTime values representing events or deadlines from an input string.
@@ -22,16 +23,15 @@ import java.util.regex.*;
  * - Parsing deadline strings and extracting the corresponding DateTime.
  */
 public class DateTimeExtractor {
-    private String input;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm");
+    private String input;
 
     /**
-     * Constructs a new ExtractDateTime instance and initializes it with the given input string.
-     * This input string is expected to contain date and time information in specific formats
-     * to be parsed later for events or deadlines.
+     * Constructs a DateTimeExtractor instance with the provided input string.
+     * This input is expected to conform to specific date-time patterns that
+     * the methods in this class will parse and extract.
      *
-     * @param input the input string containing date and time details to be processed,
-     *              adhering to the expected patterns for events or deadlines.
+     * @param input The string containing date-time information to be extracted and parsed.
      */
     public DateTimeExtractor(String input) {
         this.input = input;
@@ -51,7 +51,8 @@ public class DateTimeExtractor {
      *         matches the expected pattern; otherwise, an empty list.
      */
     public ArrayList<LocalDateTime> eventDateTime() {
-        String pattern = "start:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})\\s*end:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})";
+        String pattern = "start:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})\\s*end:\\s*(\\d{2}-\\d{2}-\\d{4})\\s"
+                + "+(\\d{2}:\\d{2})";
         // Compile the pattern
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(input);

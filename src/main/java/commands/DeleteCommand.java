@@ -53,7 +53,8 @@ public class DeleteCommand extends Command {
         if (this.index < 0) {
             throw new InvalidCommandException("Can't delete negative index");
         } else if (index >= tasks.size()) {
-            throw new InvalidCommandException("Can't delete index: " + (this.index + 1) + ". Biggest index is " + tasks.size());
+            throw new InvalidCommandException("Can't delete index: " + (this.index + 1)
+                   + ". Biggest index is " + tasks.size());
         }
         Task task = tasks.get(index);
         tasks.remove(index);

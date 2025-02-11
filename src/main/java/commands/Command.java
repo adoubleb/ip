@@ -1,10 +1,10 @@
 package commands;
 
+import java.util.ArrayList;
+
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
-
-import java.util.ArrayList;
 
 /**
  * Represents an abstract command in the task management application.
