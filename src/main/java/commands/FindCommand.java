@@ -44,7 +44,9 @@ public class FindCommand extends Command {
             }
         }
 
-        if (res.size() == 0) {
+        boolean isEmpty = res.size() == 0;
+
+        if (isEmpty) {
             return "No matching tasks found with description containing \"" + keyword + "\"";
         } else {
             return ui.showTasklist(res);

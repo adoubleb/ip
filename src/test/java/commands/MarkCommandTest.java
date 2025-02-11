@@ -33,7 +33,7 @@ public class MarkCommandTest {
             }
 
             @Override
-            public void showTasklist(ArrayList<Task> tasks) {
+            public String showTasklist(ArrayList<Task> tasks) {
                 showTasklistCalled = true;
                 assertEquals(2, tasks.size());
             }
@@ -87,14 +87,11 @@ public class MarkCommandTest {
             }
 
             @Override
-            public void showTasklist(ArrayList<Task> tasks) {
+            public String showTasklist(ArrayList<Task> tasks) {
                 assertTrue(markSuccessCalled, "markSuccessMessage should be called first.");
+                return "";
             }
 
-            @Override
-            public void showLine() {
-                // No additional verification for simplicity
-            }
         };
 
         // Stub TasklistManager to validate saveInteractions

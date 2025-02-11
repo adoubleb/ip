@@ -48,10 +48,8 @@ public class TasklistManager {
         ensureDataFolderExists(dataFolder);
         if (!tasklistFile.exists()) {
             createNewTasklistFile(tasklistFile);
-        } else {
-            if (isFileCorrupted(tasklistFile)) {
-                handleCorruptedFile(tasklistFile);
-            }
+        } else if (isFileCorrupted(tasklistFile)) {
+            handleCorruptedFile(tasklistFile);
         }
     }
 
@@ -71,9 +69,8 @@ public class TasklistManager {
      */
     private void createNewTasklistFile(File tasklistFile) {
         try {
-            if (tasklistFile.createNewFile()) {
-                writer.println("tasklist.txt created successfully at " + TASKLIST_FILE_PATH);
-            }
+            tasklistFile.createNewFile();
+            writer.println("tasklist.txt created successfully at " + TASKLIST_FILE_PATH);
         } catch (IOException e) {
             writer.println("Error while creating tasklist.txt: " + e.getMessage());
             writer.flush();

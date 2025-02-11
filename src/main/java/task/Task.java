@@ -55,7 +55,7 @@ public abstract class Task {
         String symbol = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
-        Task toReturn = null;
+        Task toReturn;
         switch (symbol) {
         case "T":
             toReturn = new Todo(description);

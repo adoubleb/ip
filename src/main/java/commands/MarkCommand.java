@@ -16,7 +16,7 @@ import ui.Ui;
  */
 public class MarkCommand extends Command {
     private final int index;
-    private final boolean markAsDone;
+    private final boolean isMarkedDone;
 
     /**
      * Constructs a MarkCommand with the index of the task to be marked and a flag
@@ -28,7 +28,7 @@ public class MarkCommand extends Command {
     public MarkCommand(int index, boolean markAsDone) { //index should be 0-index
         super();
         this.index = index;
-        this.markAsDone = markAsDone;
+        this.isMarkedDone = markAsDone;
     }
 
     /**
@@ -42,13 +42,13 @@ public class MarkCommand extends Command {
      */
     public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
         Task task = tasks.get(index);
-        String res = "";
-        if (markAsDone) {
+        String res;
+        if (isMarkedDone) {
             task.markAsDone();
-            res += ui.markSuccessMessage(index, task.toString(), true);
+            res = ui.markSuccessMessage(index, task.toString(), true);
         } else {
             task.markAsUndone();
-            res += ui.markSuccessMessage(index, task.toString(), false);
+            res = ui.markSuccessMessage(index, task.toString(), false);
         }
         tasklistManager.saveTasksToFile(tasks);
         res += "\n";
