@@ -65,7 +65,6 @@ public class DateTimeExtractor {
             toReturn.add(start);
             toReturn.add(end);
         } else {
-            System.out.println("here");
             System.out.println(this.input);
             System.out.println("invalid input");
         }
