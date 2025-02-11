@@ -40,6 +40,15 @@ public class AddCommand extends Command {
         this.content = content.trim();
     }
 
+    private boolean hasDuplicate(ArrayList<Task> tasks, Task taskToAdd) {
+        for (Task t : tasks) {
+            if (t.equals(taskToAdd)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Executes the AddCommand. Depending on the task type (TODO, EVENT, or DEADLINE),
      * this method parses the content, creates the appropriate Task object, adds it
@@ -82,6 +91,10 @@ public class AddCommand extends Command {
         tasklistManager.saveTasksToFile(tasks);
         int userFriendlyIndex = tasks.size() - 1;
         result = ui.addSuccessMessage(userFriendlyIndex, taskToAdd.toString());
+        if (hasDuplicate(tasks, taskToAdd)) {
+            result += "\n";
+            result += "Note: An exact copy of the task exists in the list. The new task is added anyways.";
+        }
         return result;
     }
 }

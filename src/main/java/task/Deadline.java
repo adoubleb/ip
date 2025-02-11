@@ -2,6 +2,7 @@ package task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * The Deadline class represents a task with a specific deadline.
@@ -45,6 +46,20 @@ public class Deadline extends Task {
     public String serialize() {
         return mySymbol() + " | " + (this.isDone ? "1" : "0") + " | " + this.description
             + " | " + deadline;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Deadline) {
+            Deadline other = (Deadline) obj;
+            boolean hasSameDescription = Objects.equals(this.description, other.description);
+            boolean hasSameDeadline = Objects.equals(this.deadline, other.deadline);
+            return hasSameDescription && hasSameDeadline;
+        }
+        return false;
     }
 
 }
