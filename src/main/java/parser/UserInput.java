@@ -1,6 +1,13 @@
 package parser;
 
-import commands.*;
+
+import commands.AddCommand;
+import commands.Command;
+import commands.DeleteCommand;
+import commands.ExitCommand;
+import commands.FindCommand;
+import commands.ListCommand;
+import commands.MarkCommand;
 import exceptions.InvalidCommandException;
 import task.TaskType;
 
@@ -34,7 +41,7 @@ import task.TaskType;
  *   any expected command pattern.
  */
 public class UserInput {
-    String input;
+    private String input;
 
     public UserInput(String input) {
         this.input = input;
@@ -47,16 +54,6 @@ public class UserInput {
      *
      * The method expects the input string to be valid and non-empty. If the command is unrecognized, incomplete,
      * or if required parameters are missing, it throws an InvalidCommandException.
-     *
-     * Recognized commands include:
-     * - "list": Returns a ListCommand.
-     * - "bye": Returns an ExitCommand.
-     * - "mark <task_index>": Returns a MarkCommand to mark a task as done.
-     * - "unmark <task_index>": Returns a MarkCommand to mark a task as not done.
-     * - "delete <task_index>": Returns a DeleteCommand to delete a task.
-     * - "todo <description>": Returns an AddCommand to add a TODO task.
-     * - "deadline <description>": Returns an AddCommand to add a deadline task.
-     * - "event <description>": Returns an AddCommand to add an event task.
      *
      * @return The Command object corresponding to the user input.
      * @throws InvalidCommandException If the input command is invalid, undefined, or does not meet required formats.

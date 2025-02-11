@@ -27,6 +27,13 @@ public class Ui {
         return reader.readLine();
     }
 
+    /**
+     * Generates a formatted string representing the list of tasks.
+     * Each task is prefixed with its position in the list, followed by the task description.
+     *
+     * @param items The list of tasks to display.
+     * @return A string containing the formatted task list, with each task on a new line.
+     */
     public String showTasklist(ArrayList<Task> items) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < items.size(); i++) {
@@ -34,6 +41,15 @@ public class Ui {
         }
         return result.toString();
     }
+
+    /**
+     * Constructs a success message indicating whether the specified task was marked as done or undone.
+     *
+     * @param index The zero-based index of the task in the task list.
+     * @param description A string representing the description of the task.
+     * @param markAsDone A boolean flag indicating if the task is marked as done (true) or not done (false).
+     * @return A formatted string message describing the success of the marking operation.
+     */
     public String markSuccessMessage(int index, String description, boolean markAsDone) {
         if (markAsDone) {
             return "Successfully marked item at index " + (index + 1) + ": " + description + " as done.";
@@ -47,7 +63,7 @@ public class Ui {
     }
 
     public String addSuccessMessage(int index, String description) {
-        return "Successfully added item at index " + (index+ 1) + ": " + description;
+        return "Successfully added item at index " + (index + 1) + ": " + description;
     }
 
     public void showErrorMessage(String message) {
