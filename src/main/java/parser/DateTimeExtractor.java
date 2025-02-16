@@ -82,7 +82,7 @@ public class DateTimeExtractor {
      * @throws InvalidCommandException if the input string does not match the expected date/time format.
      */
     public ArrayList<LocalDateTime> deadlineDateTime() throws InvalidCommandException {
-        String pattern = "by:\\s(\\d{2}-\\d{2}-\\d{4})\\s(\\d{2}:\\d{2})";
+        String pattern = "by:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})";
 
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(this.input);

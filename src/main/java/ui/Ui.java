@@ -35,6 +35,9 @@ public class Ui {
      * @return A string containing the formatted task list, with each task on a new line.
      */
     public String showTasklist(ArrayList<Task> items) {
+        if (items.size() == 0) {
+            return "No tasks found.";
+        }
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < items.size(); i++) {
             result.append((i + 1)).append(". ").append(items.get(i)).append("\n");

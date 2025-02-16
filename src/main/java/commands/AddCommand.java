@@ -25,10 +25,6 @@ public class AddCommand extends Command {
     private final String content;
 
     /**
-     * Constructs an AddCommand with the specified task type and content.
-     * This command is used to add a task of the given type (TODO, EVENT, DEADLINE)
-     * with the provided content.
-     *
      * @param taskType the type of task to be added (TODO, EVENT, or DEADLINE)
      * @param content  the details or description of the task, including any
      *                 additional information such as dates or times for EVENTS
@@ -50,11 +46,6 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Executes the AddCommand. Depending on the task type (TODO, EVENT, or DEADLINE),
-     * this method parses the content, creates the appropriate Task object, adds it
-     * to the tasks list, saves the updated list to the file via TasklistManager, and
-     * displays a success message using the Ui.
-     *
      * @param tasks The list of tasks to which the new task will be added.
      * @param ui The user interface instance for displaying messages and feedback.
      * @param tasklistManager The manager responsible for saving and managing the task list.
@@ -65,36 +56,51 @@ public class AddCommand extends Command {
             InvalidCommandException {
         String result;
         Task taskToAdd;
-        DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);
-        String description;
+
         switch (taskType) {
         case TODO:
-            taskToAdd = new Todo(content);
+            taskToAdd = createTodo(content);
             break;
         case EVENT:
-            int startIndex = content.indexOf(START_DELIMITER);
-            description = content.substring(content.indexOf(" ") + 1, startIndex).trim();
-            ArrayList<LocalDateTime> datetimesEvent = extractDateTime.eventDateTime();
-            taskToAdd = new Event(description, datetimesEvent.get(0), datetimesEvent.get(1));
+            taskToAdd = createEvent(content);
             break;
         case DEADLINE:
-            int byIndex = content.indexOf(BY_DELIMITER);
-            description = content.substring(content.indexOf(" ") + 1, byIndex).trim();
-            ArrayList<LocalDateTime> datetimesDeadline = extractDateTime.deadlineDateTime();
-            taskToAdd = new Deadline(description, datetimesDeadline.get(0));
+            taskToAdd = createDeadline(content);
             break;
         default:
             throw new InvalidCommandException("Invalid task type");
         }
         assert taskToAdd != null;
+        result = "";
+        if (hasDuplicate(tasks, taskToAdd)) {
+            result += "Note: An exact copy of the task exists in the list. The new task is added anyways.";
+        }
         tasks.add(taskToAdd);
         tasklistManager.saveTasksToFile(tasks);
         int userFriendlyIndex = tasks.size() - 1;
-        result = ui.addSuccessMessage(userFriendlyIndex, taskToAdd.toString());
-        if (hasDuplicate(tasks, taskToAdd)) {
-            result += "\n";
-            result += "Note: An exact copy of the task exists in the list. The new task is added anyways.";
-        }
+        result += ui.addSuccessMessage(userFriendlyIndex, taskToAdd.toString());
         return result;
+    }
+
+    private Task createTodo(String content) {
+        return new Todo(content);
+    }
+
+    private Task createEvent(String content) {
+        int startIndex = content.indexOf(START_DELIMITER);
+        String description = content.substring(0, startIndex).trim();
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);
+        ArrayList<LocalDateTime> datetimesEvent = extractDateTime.eventDateTime();
+        Task taskToAdd = new Event(description, datetimesEvent.get(0), datetimesEvent.get(1));
+        return taskToAdd;
+    }
+
+    private Task createDeadline(String content) throws InvalidCommandException {
+        int byIndex = content.indexOf(BY_DELIMITER);
+        String description = content.substring(0, byIndex).trim();
+        DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);
+        ArrayList<LocalDateTime> datetimesDeadline = extractDateTime.deadlineDateTime();
+        Task taskToAdd = new Deadline(description, datetimesDeadline.get(0));
+        return taskToAdd;
     }
 }

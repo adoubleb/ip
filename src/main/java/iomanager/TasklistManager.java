@@ -95,31 +95,7 @@ public class TasklistManager {
      * Handles cases where the file is corrupted.
      */
     private void handleCorruptedFile(File tasklistFile) {
-        writer.println("WARNING: tasklist.txt appears to be corrupted.");
-        writer.flush();
-
-        while (true) {
-            writer.println("Would you like to create a new tasklist.txt? (y/n):");
-            writer.flush();
-
-            try {
-                String userInput = reader.readLine().trim().toLowerCase();
-                if (userInput.equals("y")) {
-                    recreateTasklistFile(tasklistFile);
-                    break;
-                } else if (userInput.equals("n")) {
-                    writer.println("Program will terminate. Please fix or replace tasklist.txt.");
-                    writer.flush();
-                    System.exit(1);
-                } else {
-                    writer.println("Invalid input. Please enter 'y' or 'n'.");
-                    writer.flush();
-                }
-            } catch (IOException e) {
-                writer.println("Error while reading input: " + e.getMessage());
-                writer.flush();
-            }
-        }
+        recreateTasklistFile(tasklistFile);
     }
 
     /**
