@@ -1,14 +1,18 @@
 package commands;
 
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import iomanager.TasklistManager;
 import task.Task;
 import task.Todo;
 import ui.Ui;
-import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+
 
 public class MarkCommandTest {
 
@@ -21,38 +25,35 @@ public class MarkCommandTest {
 
         // Stub Ui to validate interactions
         Ui ui = new Ui() {
-            private boolean markSuccessCalled = false;
-            private boolean showTasklistCalled = false;
+            private boolean isMarkSuccessCalled = false;
+            private boolean isShowTasklistCalled = false;
 
             @Override
-            public void markSuccessMessage(int index, String taskString, boolean markedAsDone) {
-                markSuccessCalled = true;
-                assertEquals(0, index);
-                assertEquals("*T*[X] Task 1", taskString);
-                assertTrue(markedAsDone);
+            public String markSuccessMessage(int index, String taskString, boolean markedAsDone) {
+                isMarkSuccessCalled = true;
+                Assertions.assertEquals(0, index);
+                Assertions.assertEquals("*T*[X] Task 1", taskString);
+                Assertions.assertTrue(markedAsDone);
+                return "Successfully marked item at index " + (index + 1) + ": " + taskString + " as done.";
             }
 
             @Override
             public String showTasklist(ArrayList<Task> tasks) {
-                showTasklistCalled = true;
-                assertEquals(2, tasks.size());
-            }
-
-            @Override
-            public void showLine() {
-                assertTrue(markSuccessCalled && showTasklistCalled, "Messages should be called in order.");
+                isShowTasklistCalled = true;
+                Assertions.assertEquals(2, tasks.size());
+                return "";
             }
         };
 
         // Stub TasklistManager to validate saveInteractions
         TasklistManager tasklistManager = new TasklistManager() {
-            private boolean saveCalled = false;
+            private boolean isSaveCalled = false;
 
             @Override
             public void saveTasksToFile(ArrayList<Task> tasks) {
-                saveCalled = true;
-                assertEquals(2, tasks.size());
-                assertTrue(tasks.get(0).isDone());
+                isSaveCalled = true;
+                Assertions.assertEquals(2, tasks.size());
+                Assertions.assertTrue(tasks.get(0).isDone());
             }
         };
 
@@ -63,8 +64,8 @@ public class MarkCommandTest {
         markCommand.execute(tasks, ui, tasklistManager);
 
         // Assert
-        assertTrue(tasks.get(0).isDone(), "Task 1 should be marked as done.");
-        assertFalse(tasks.get(1).isDone(), "Task 2 should remain undone.");
+        Assertions.assertTrue(tasks.get(0).isDone(), "Task 1 should be marked as done.");
+        Assertions.assertFalse(tasks.get(1).isDone(), "Task 2 should remain undone.");
     }
 
     @Test
@@ -80,15 +81,16 @@ public class MarkCommandTest {
             private boolean markSuccessCalled = false;
 
             @Override
-            public void markSuccessMessage(int index, String taskString, boolean markedAsDone) {
+            public String markSuccessMessage(int index, String taskString, boolean markedAsDone) {
                 markSuccessCalled = true;
-                assertEquals(0, index);
-                assertFalse(markedAsDone);
+                Assertions.assertEquals(0, index);
+                Assertions.assertFalse(markedAsDone);
+                return "Successfully marked item at index " + (index + 1) + ": " + taskString + " as undone.";
             }
 
             @Override
             public String showTasklist(ArrayList<Task> tasks) {
-                assertTrue(markSuccessCalled, "markSuccessMessage should be called first.");
+                Assertions.assertTrue(markSuccessCalled, "markSuccessMessage should be called first.");
                 return "";
             }
 
@@ -98,7 +100,7 @@ public class MarkCommandTest {
         TasklistManager tasklistManager = new TasklistManager() {
             @Override
             public void saveTasksToFile(ArrayList<Task> tasks) {
-                assertFalse(tasks.get(0).isDone(), "Task 1 should be marked as undone.");
+                Assertions.assertFalse(tasks.get(0).isDone(), "Task 1 should be marked as undone.");
             }
         };
 
@@ -109,6 +111,6 @@ public class MarkCommandTest {
         markCommand.execute(tasks, ui, tasklistManager);
 
         // Assert
-        assertFalse(tasks.get(0).isDone(), "Task 1 should be marked undone.");
+        Assertions.assertFalse(tasks.get(0).isDone(), "Task 1 should be marked undone.");
     }
 }
