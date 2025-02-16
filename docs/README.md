@@ -56,7 +56,7 @@ Marks a task based on the index in the list. Marked task remains marked.
 
 Format: `mark {index}`
 
-## Unamrking a task
+## Unmarking a task
 Unmarks a task based on the index in the list. Unmarked task remains unmarked.
 
 Format: `unmmark {index}`
