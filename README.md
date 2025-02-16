@@ -1,26 +1,87 @@
-# Duke project template
+# Brownie
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+<img width="422" alt="Ui" src="https://github.com/user-attachments/assets/e835c90d-df5b-408f-a450-624d04261065" />
 
-## Setting up in Intellij
+This is a simple chatbot-like application that helps you manage your life by keeping track of your tasks.
+It is named Brownie after a guide dog that accompanied me hiking in Kedarkantha. 
+Given below are instructions on how to use it.
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+You can keep track of 3 types of tasks.
+1. Todo
+   * A task with no time constraint
+3. Deadline
+   * A task with a deadline
+5. Event
+   * A task with a start time and end time.
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+## Adding todo
+Adds a todo task to the list of tasks.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+Format: `todo {description}`
+
+Example: `todo Hit the gym!`
+
+## Adding deadline
+Adds a deadline task to the list of tasks.
+
+Format: `deadline {description} by: {dd-mm-yyyy} {mm:hh}`
+
+Example: `deadline Complete IP by: 20-02-2025 23:59`
+
+## Adding event
+Adds a event task to the list of tasks.
+
+Format: `event {description} start: {dd-mm-yyyy} {mm:hh} end: {dd-mm-yyyy} {mm:hh}`
+
+Example: `event Hari Raya Dinner start: 22-04-2025 19:00 end: 22-04-2025 21:00`
+
+## Listing all tasks
+Lists all the tasks in the list of tasks.
+
+Command: `list`
+```
+1. *T*[ ] Hit the gym!
+2. *D*[ ] Complete IP (by: 20 Feb 2025 11:59 PM)
+2. *E*[ ] Hari Raya Dinner (start: 22 April 2025 07:00 PM) (end: 22 April 2025 09:00 PM)
+```
+
+## Deleting a task
+Deletes a task based on the index in the list
+
+Format: `delete {index}`
+
+
+## Marking a task
+Marks a task based on the index in the list. Marked task remains marked.
+
+Format: `mark {index}`
+
+## Unamrking a task
+Unmarks a task based on the index in the list. Unmarked task remains unmarked.
+
+Format: `unmmark {index}`
+
+## Finding a task
+Returns the list of tasks with description containing `target_string`. Search is not case-sensitive.
+
+Format: `find {target_string}`
+
+Example: `find dinner`
+
+Example Output:
+```
+1. *E*[ ] Hari Raya Dinner (start: 22 April 2025 07:00 PM) (end: 22 April 2025 09:00 PM)
+```
+
+## Exiting 
+Exits the app
+
+Command: `bye`
+
+# Declaration of AI use
+The project was assisted by JetBrains AI Assistant through the use of auto-code completion. 
+
+Automated code generation was also used extensively for creating JavaDocs.
+
+
+
