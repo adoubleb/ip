@@ -42,14 +42,10 @@ public class Brownie {
      * the exception is printed to the error stream.
      */
     public Brownie() {
-        ui = new Ui();
-        tasklistManager = new TasklistManager();
-        try {
-            tasklistManager.initializeTasklist();
-            items = tasklistManager.loadTasksFromFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.ui = new Ui();
+        this.tasklistManager = new TasklistManager();
+        this.tasklistManager.initializeTasklist();
+        this.items = tasklistManager.loadTasksFromFile();
     }
 
     /**
@@ -84,7 +80,7 @@ public class Brownie {
      *              arguments.
      */
     public void respondToUser(String input) {
-        String response = "";
+        String response;
         assert dialogUpdater != null;
         try {
             UserInput userInput = new UserInput(input);
@@ -93,6 +89,10 @@ public class Brownie {
         } catch (Exception e) {
             e.printStackTrace();
             response = "Error: " + e.getMessage();
+        }
+
+        if (!tasklistManager.isInitializedCorrectly()) {
+            response = "data file cannot be initialized correctly";
         }
 
         dialogUpdater.accept(response, new Image("/images/Brownie.jpg"));

@@ -2,7 +2,6 @@ package commands;
 
 import java.util.ArrayList;
 
-import exceptions.InvalidCommandException;
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
@@ -35,8 +34,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager)
-            throws InvalidCommandException {
+    public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) {
         ArrayList<Task> res = new ArrayList<>();
         for (Task t : tasks) {
             if (t.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
@@ -48,8 +46,7 @@ public class FindCommand extends Command {
 
         if (isEmpty) {
             return "No matching tasks found with description containing \"" + keyword + "\"";
-        } else {
-            return ui.showTasklist(res);
         }
+        return ui.showTasklist(res);
     }
 }
