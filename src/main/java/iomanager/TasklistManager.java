@@ -21,6 +21,8 @@ public class TasklistManager {
     private final PrintWriter writer;
     private final BufferedReader reader;
 
+    private boolean isInitializedCorrectly = false;
+
     /**
      * Constructs a new instance of the TasklistManager.
      *
@@ -34,8 +36,8 @@ public class TasklistManager {
      * user interaction and file management tasks.
      */
     public TasklistManager() {
-        this.writer = new PrintWriter(System.out);;
-        this.reader = new BufferedReader(new InputStreamReader(System.in));;
+        this.writer = new PrintWriter(System.out);
+        this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     /**
@@ -51,6 +53,7 @@ public class TasklistManager {
         } else if (isFileCorrupted(tasklistFile)) {
             handleCorruptedFile(tasklistFile);
         }
+        isInitializedCorrectly = true;
     }
 
     /**
@@ -84,7 +87,7 @@ public class TasklistManager {
     private boolean isFileCorrupted(File tasklistFile) {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(tasklistFile))) {
             String firstLine = fileReader.readLine();
-            // Example corruption check: file is empty
+            // corruption check: file is empty
             return firstLine == null || firstLine.trim().isEmpty();
         } catch (IOException e) {
             return true; // File cannot be read
@@ -153,6 +156,15 @@ public class TasklistManager {
         }
 
         return items;
+    }
+
+    /**
+     * Checks whether the TasklistManager has been correctly initialized.
+     *
+     * @return true if the TasklistManager was properly initialized; false otherwise.
+     */
+    public boolean isInitializedCorrectly() {
+        return isInitializedCorrectly;
     }
 }
 

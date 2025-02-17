@@ -35,7 +35,7 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
+    /** Injects the Brownie instance */
     public void setBrownie(Brownie b) {
         this.brownie = b;
 
@@ -58,18 +58,18 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2)); //
-
-        brownie.respondToUser(input);
+        this.brownie.respondToUser(input);
         if (input.equals("bye")) {
-            pause.setOnFinished(event -> {
-                // Display Brownie's response after the delay
-                System.exit(0);
-            });
-            // Start the pause
-            pause.play();
+            handleBye();
         }
     }
 
+    private void handleBye() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            System.exit(0);
+        });
+        // Start the pause
+        pause.play();
+    }
 }
-

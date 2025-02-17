@@ -50,7 +50,7 @@ public class DateTimeExtractor {
      * @return a list containing two `LocalDateTime` objects (start and end date-time) if the input
      *         matches the expected pattern; otherwise, an empty list.
      */
-    public ArrayList<LocalDateTime> eventDateTime() {
+    public ArrayList<LocalDateTime> eventDateTime() throws InvalidCommandException {
         String pattern = "start:\\s*(\\d{2}-\\d{2}-\\d{4})\\s+(\\d{2}:\\d{2})\\s*end:\\s*(\\d{2}-\\d{2}-\\d{4})\\s"
                 + "+(\\d{2}:\\d{2})";
         Pattern regex = Pattern.compile(pattern);
@@ -63,8 +63,7 @@ public class DateTimeExtractor {
             toReturn.add(start);
             toReturn.add(end);
         } else {
-            System.out.println(this.input);
-            System.out.println("invalid input");
+            throw new InvalidCommandException("Invalid Date/Time Format");
         }
         return toReturn;
     }

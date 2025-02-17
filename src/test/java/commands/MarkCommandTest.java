@@ -11,14 +11,11 @@ import task.Todo;
 import ui.Ui;
 
 
-
-
+//unitBeingTested_descriptionOfTestInputs_expectedOutcome
 
 public class MarkCommandTest {
-
     @Test
     public void execute_markAsDone_marksTaskAsDone() throws Exception {
-        // Arrange
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(new Todo("Task 1"));
         tasks.add(new Todo("Task 2"));
@@ -57,20 +54,16 @@ public class MarkCommandTest {
             }
         };
 
-        // Test data
         MarkCommand markCommand = new MarkCommand(0, true);
 
-        // Act
         markCommand.execute(tasks, ui, tasklistManager);
 
-        // Assert
         Assertions.assertTrue(tasks.get(0).isDone(), "Task 1 should be marked as done.");
         Assertions.assertFalse(tasks.get(1).isDone(), "Task 2 should remain undone.");
     }
 
     @Test
     public void execute_markAsUndone_marksTaskAsUndone() throws Exception {
-        // Arrange
         ArrayList<Task> tasks = new ArrayList<>();
         Task task = new Todo("Task 1");
         task.markAsDone();
@@ -104,13 +97,9 @@ public class MarkCommandTest {
             }
         };
 
-        // Test data
         MarkCommand markCommand = new MarkCommand(0, false);
-
-        // Act
         markCommand.execute(tasks, ui, tasklistManager);
 
-        // Assert
         Assertions.assertFalse(tasks.get(0).isDone(), "Task 1 should be marked undone.");
     }
 }

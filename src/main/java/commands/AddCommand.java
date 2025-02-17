@@ -86,7 +86,7 @@ public class AddCommand extends Command {
         return new Todo(content);
     }
 
-    private Task createEvent(String content) {
+    private Task createEvent(String content) throws InvalidCommandException {
         int startIndex = content.indexOf(START_DELIMITER);
         String description = content.substring(0, startIndex).trim();
         DateTimeExtractor extractDateTime = new DateTimeExtractor(this.content);

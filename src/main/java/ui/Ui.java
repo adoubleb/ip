@@ -69,8 +69,4 @@ public class Ui {
         return "Successfully added item at index " + (index + 1) + ": " + description;
     }
 
-    public void showErrorMessage(String message) {
-        System.out.println(message);
-    }
-
 }
