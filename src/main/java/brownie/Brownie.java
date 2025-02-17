@@ -92,7 +92,7 @@ public class Brownie {
         }
 
         if (!tasklistManager.isInitializedCorrectly()) {
-            response = "data file cannot be initialized correctly";
+            response += "Data file cannot be initialized correctly. Program cannot store data to memory.";
         }
 
         dialogUpdater.accept(response, new Image("/images/Brownie.jpg"));

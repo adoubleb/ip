@@ -59,17 +59,6 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         this.brownie.respondToUser(input);
-        if (input.equals("bye")) {
-            handleBye();
-        }
     }
 
-    private void handleBye() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> {
-            System.exit(0);
-        });
-        // Start the pause
-        pause.play();
-    }
 }

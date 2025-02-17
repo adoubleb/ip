@@ -3,6 +3,8 @@ package commands;
 import java.util.ArrayList;
 
 import iomanager.TasklistManager;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 import ui.Ui;
 
 
@@ -17,6 +19,18 @@ import ui.Ui;
 public class ExitCommand extends Command {
     @Override
     public String execute(ArrayList<task.Task> tasks, Ui ui, TasklistManager tasklistManager) {
+        handleBye();
         return ui.showGoodbye();
     }
+
+    private void handleBye() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            System.exit(0);
+        });
+        // Start the pause
+        pause.play();
+    }
 }
+
+

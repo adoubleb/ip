@@ -20,7 +20,7 @@ public class Ui {
     }
 
     public String showGoodbye() {
-        return "Bye. Hope to see you again soon!\"";
+        return "Bye. Hope to see you again soon!";
     }
 
     public String readCommand() throws IOException {
