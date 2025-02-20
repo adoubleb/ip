@@ -81,7 +81,8 @@ Command: `bye`
 # Declaration of AI use
 The project was assisted by JetBrains AI Assistant through the use of auto-code completion.
 
-Automated code generation was also used extensively for creating JavaDocs.
+Automated code generation was also used extensively for creating JavaDocs. More details on AI use can be found 
+in the AI.md file
 
 
 
