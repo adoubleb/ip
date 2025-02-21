@@ -63,7 +63,7 @@ public class DateTimeExtractor {
             toReturn.add(start);
             toReturn.add(end);
         } else {
-            throw new InvalidCommandException("Invalid Date/Time Format");
+            throw new InvalidCommandException("Invalid Date/Time Format. Required: dd-MM-yyyy HH:mm");
         }
         return toReturn;
     }
@@ -90,7 +90,7 @@ public class DateTimeExtractor {
         if (matcher.find()) {
             toReturn.add(LocalDateTime.parse(matcher.group(1) + "T" + matcher.group(2), DATE_TIME_FORMATTER));
         } else {
-            throw new InvalidCommandException("Invalid Date/Time Format");
+            throw new InvalidCommandException("Invalid Date/Time Format. Required: dd-MM-yyyy HH:mm");
         }
         return toReturn;
     }

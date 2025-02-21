@@ -3,7 +3,10 @@ package task;
 import java.time.LocalDateTime;
 
 /**
- * The Task class is an abstract representation of a*/
+ * The Task class is an abstract representation of a task with a description and
+ * a status indicating whether it is completed. It serves as a base class for
+ * specialized task types such as Todo, Deadline, and Event.
+ */
 public abstract class Task {
     protected String description;
     protected boolean isDone;

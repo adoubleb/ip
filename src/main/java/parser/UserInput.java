@@ -1,6 +1,5 @@
 package parser;
 
-
 import commands.AddCommand;
 import commands.Command;
 import commands.DeleteCommand;
@@ -26,16 +25,6 @@ import task.TaskType;
  * - Parse the input string to detect and instantiate the appropriate Command object.
  * - Throw an exception if the command is invalid or incorrectly formatted.
  *
- * Supported Commands:
- * 1. list - Lists all tasks.
- * 2. bye - Exits the application.
- * 3. mark [index] - Marks a task as completed (0-indexed).
- * 4. unmark [index] - Marks a task as incomplete (0-indexed).
- * 5. delete [index] - Deletes a task from the list (0-indexed).
- * 6. todo [description] - Adds a ToDo task with the given description.
- * 7. deadline [description] - Adds a Deadline task with the given description.
- * 8. event [description] - Adds an Event task with the given description.
- *
  * Exceptions:
  * - Throws InvalidCommandException when the input is invalid, empty, or does not match
  *   any expected command pattern.
@@ -59,10 +48,7 @@ public class UserInput {
      * @throws InvalidCommandException If the input command is invalid, undefined, or does not meet required formats.
      */
     public Command parse() throws InvalidCommandException {
-        if (input == null || input.trim().isEmpty()) {
-
-            throw new InvalidCommandException("Input Cannot Be Empty");
-        }
+        validateInputNotEmpty();
         String[] tokens = input.split("\\s+");
         String commandWord = tokens[0];
         switch (commandWord) {
@@ -74,22 +60,23 @@ public class UserInput {
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Mark Command");
             }
+            isValidInteger(tokens[1]);
             return new MarkCommand(Integer.parseInt(tokens[1]) - 1, true);
         case "unmark":
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Unmark Command");
             }
+            isValidInteger(tokens[1]);
             return new MarkCommand(Integer.parseInt(tokens[1]) - 1, false);
         case "delete":
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Delete Command");
             }
+            isValidInteger(tokens[1]);
             return new DeleteCommand(Integer.parseInt(tokens[1]) - 1);
         case "find":
-            if (tokens.length != 2) {
-                throw new InvalidCommandException("Invalid Find Command");
-            }
-            return new FindCommand(tokens[1]);
+            String searchString = input.substring(input.indexOf(" ") + 1);
+            return new FindCommand(searchString);
         case "todo":
             String todoDescription = input.substring(input.indexOf(" ") + 1);
             return new AddCommand(TaskType.TODO, todoDescription);
@@ -101,6 +88,21 @@ public class UserInput {
             return new AddCommand(TaskType.EVENT, eventDescription);
         default:
             throw new InvalidCommandException("Invalid/Undefined command: " + commandWord);
+        }
+    }
+
+    private void validateInputNotEmpty() throws InvalidCommandException {
+        if (this.input == null || this.input.trim().isEmpty()) {
+            throw new InvalidCommandException("Input Cannot Be Empty");
+        }
+    }
+
+    private void isValidInteger(String input) throws InvalidCommandException {
+        try {
+            Integer.parseInt(input);
+            return;
+        } catch (NumberFormatException e) {
+            throw new InvalidCommandException("Input a valid integer");
         }
     }
 }

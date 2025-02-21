@@ -2,6 +2,7 @@ package commands;
 
 import java.util.ArrayList;
 
+import exceptions.InvalidCommandException;
 import iomanager.TasklistManager;
 import task.Task;
 import ui.Ui;
@@ -41,6 +42,7 @@ public class MarkCommand extends Command {
      * @throws Exception If the operation fails, typically due to invalid input or saving errors.
      */
     public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws Exception {
+        validateIndex(tasks);
         Task task = tasks.get(index);
         String res;
         if (isMarkedDone) {
@@ -54,5 +56,12 @@ public class MarkCommand extends Command {
         res += "\n";
         res += ui.showTasklist(tasks);
         return res;
+    }
+
+    private void validateIndex(ArrayList<Task> tasks) throws InvalidCommandException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new InvalidCommandException("Error: List of tasks only has " + tasks.size() + " tasks. Your search"
+                    + " index: " + (index + 1) + " is out of bounds.");
+        }
     }
 }
