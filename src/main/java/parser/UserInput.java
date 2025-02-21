@@ -70,16 +70,19 @@ public class UserInput {
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Mark Command");
             }
+            isValidInteger(tokens[1]);
             return new MarkCommand(Integer.parseInt(tokens[1]) - 1, true);
         case "unmark":
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Unmark Command");
             }
+            isValidInteger(tokens[1]);
             return new MarkCommand(Integer.parseInt(tokens[1]) - 1, false);
         case "delete":
             if (tokens.length != 2) {
                 throw new InvalidCommandException("Invalid Delete Command");
             }
+            isValidInteger(tokens[1]);
             return new DeleteCommand(Integer.parseInt(tokens[1]) - 1);
         case "find":
             String searchString = input.substring(input.indexOf(" ") + 1);
@@ -104,4 +107,12 @@ public class UserInput {
         }
     }
 
+    private void isValidInteger(String input) throws InvalidCommandException {
+        try {
+            Integer.parseInt(input);
+            return;
+        } catch (NumberFormatException e) {
+            throw new InvalidCommandException("Input a valid integer");
+        }
+    }
 }

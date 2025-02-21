@@ -1,7 +1,10 @@
-T | 1 | something
 T | 0 | chicken
-T | 0 | fish
 T | 0 | i am
 T | 0 | -1
 T | 0 | bla bla bla chicken
 T | 0 | bla fish
+E | 0 | Hari Raya Dinner | 2025-04-22T19:00 | 2025-04-22T21:00
+E | 0 | Hari Raya Dinner | 2025-04-22T19:00 | 2025-04-22T21:00
+E | 0 | Hari Raya Dinner | 2025-04-22T19:00 | 2025-04-22T21:00
+E | 0 | Hari Raya Dinner | 2025-04-22T19:00 | 2025-04-22T21:00
+E | 0 | Hari Raya Dinner | 2025-04-22T19:00 | 2025-04-22T21:00

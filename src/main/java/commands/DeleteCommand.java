@@ -51,7 +51,7 @@ public class DeleteCommand extends Command {
     public String execute(ArrayList<Task> tasks, Ui ui, TasklistManager tasklistManager) throws
             InvalidCommandException {
         if (this.index < 0) {
-            throw new InvalidCommandException("Can't delete negative index");
+            throw new InvalidCommandException("Can't delete 0 or negative index");
         } else if (index >= tasks.size()) {
             throw new InvalidCommandException("Can't delete index: " + (this.index + 1)
                    + ". Biggest index is " + tasks.size());
