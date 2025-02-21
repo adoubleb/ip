@@ -1,1 +1,5 @@
-T | 0 | something
+T | 1 | something
+T | 0 | chicken
+T | 0 | fish
+T | 0 | i am
+T | 0 | -1

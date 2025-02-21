@@ -59,10 +59,7 @@ public class UserInput {
      * @throws InvalidCommandException If the input command is invalid, undefined, or does not meet required formats.
      */
     public Command parse() throws InvalidCommandException {
-        if (input == null || input.trim().isEmpty()) {
-
-            throw new InvalidCommandException("Input Cannot Be Empty");
-        }
+        validateInputNotEmpty();
         String[] tokens = input.split("\\s+");
         String commandWord = tokens[0];
         switch (commandWord) {
@@ -103,4 +100,11 @@ public class UserInput {
             throw new InvalidCommandException("Invalid/Undefined command: " + commandWord);
         }
     }
+
+    private void validateInputNotEmpty() throws InvalidCommandException {
+        if (this.input == null || this.input.trim().isEmpty()) {
+            throw new InvalidCommandException("Input Cannot Be Empty");
+        }
+    }
+
 }
