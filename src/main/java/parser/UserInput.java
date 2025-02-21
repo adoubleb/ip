@@ -1,6 +1,5 @@
 package parser;
 
-
 import commands.AddCommand;
 import commands.Command;
 import commands.DeleteCommand;
@@ -83,10 +82,8 @@ public class UserInput {
             }
             return new DeleteCommand(Integer.parseInt(tokens[1]) - 1);
         case "find":
-            if (tokens.length != 2) {
-                throw new InvalidCommandException("Invalid Find Command");
-            }
-            return new FindCommand(tokens[1]);
+            String searchString = input.substring(input.indexOf(" ") + 1);
+            return new FindCommand(searchString);
         case "todo":
             String todoDescription = input.substring(input.indexOf(" ") + 1);
             return new AddCommand(TaskType.TODO, todoDescription);
