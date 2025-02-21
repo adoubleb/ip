@@ -25,16 +25,6 @@ import task.TaskType;
  * - Parse the input string to detect and instantiate the appropriate Command object.
  * - Throw an exception if the command is invalid or incorrectly formatted.
  *
- * Supported Commands:
- * 1. list - Lists all tasks.
- * 2. bye - Exits the application.
- * 3. mark [index] - Marks a task as completed (0-indexed).
- * 4. unmark [index] - Marks a task as incomplete (0-indexed).
- * 5. delete [index] - Deletes a task from the list (0-indexed).
- * 6. todo [description] - Adds a ToDo task with the given description.
- * 7. deadline [description] - Adds a Deadline task with the given description.
- * 8. event [description] - Adds an Event task with the given description.
- *
  * Exceptions:
  * - Throws InvalidCommandException when the input is invalid, empty, or does not match
  *   any expected command pattern.
